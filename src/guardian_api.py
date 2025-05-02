@@ -1,17 +1,13 @@
 from typing import Optional, List, Dict
 import boto3
-import logging
 import requests
-
-
-logger = logging.getLogger()
-logger.setLevel(logging.INFO)
 
 
 GUARDIAN_API_URL = "https://content.guardianapis.com/search"
 
 
-def get_api_key(secret_name="guardian_api_key"):
+def get_api_key(secret_name="guardian_api_key", logger=None):
+    """ """
     client = boto3.client("secretsmanager", region_name="eu-west-2")
     try:
         response = client.get_secret_value(SecretId=secret_name)
@@ -26,8 +22,9 @@ def fetch_guardian_articles(
     search_term: str,
     date_from: Optional[str] = None,
     page_size: int = 10,
+    logger=None,
 ) -> List[Dict]:
-
+    """ """
     if not guardian_api_key:
         logger.error(f"Guardian api key empty: {guardian_api_key}")
 
