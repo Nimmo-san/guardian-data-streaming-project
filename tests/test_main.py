@@ -1,6 +1,6 @@
 from unittest.mock import patch, MagicMock
 from main import run, lambda_handler
-import pytest
+# import pytest
 
 class TestMain:
     @patch("main.fetch_guardian_articles")
