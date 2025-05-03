@@ -19,10 +19,12 @@ class TestMessageBroker:
                 "webPublicationDate": "2023-01-01T10:00:00Z",
                 "webTitle": "Sample",
                 "webUrl": "https://example.com",
-                "content_preview": "Example content"
+                "content_preview": "Example content",
             }
         ]
-        queue_url = "https://sqs.eu-west-2.amazonaws.com/123456789012/guardian_content"
+        queue_url = (
+            "https://sqs.eu-west-2.amazonaws.com/123456789012/guardian_content"
+        )
 
         # Call the function
         send_message_to_sqs(test_messages, queue_url, logger)
