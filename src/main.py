@@ -1,5 +1,5 @@
-from guardian_api import fetch_guardian_articles
-from message_broker import send_message_to_sqs
+from src.guardian_api import fetch_guardian_articles
+from src.message_broker import send_message_to_sqs
 import logging
 # import argparse
 # import json
@@ -10,7 +10,7 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 
-def run(search_term: str, date_from: str, queue_url: str):
+def run(search_term: str, date_from: str, queue_url: str, logger: None):
     """ """
     logger.info(f"Fetching articles for {search_term}")
 
@@ -39,9 +39,9 @@ def lambda_handler(event, context):
     date_from = event.get("date_from")
     queue_url = event.get("queue_url")
 
-    run(search_term, date_from, queue_url)
+    run(search_term, date_from, queue_url, logger)
 
 
 # For testing
 if __name__ == "__main__":
-    pass
+    lambda_handler()
