@@ -1,10 +1,10 @@
 from unittest.mock import patch, MagicMock
-from src.main import run, lambda_handler
-
+from main import run, lambda_handler
+import pytest
 
 class TestMain:
-    @patch("src.main.fetch_guardian_articles")
-    @patch("src.main.send_message_to_sqs")
+    @patch("main.fetch_guardian_articles")
+    @patch("main.send_message_to_sqs")
     def test_run_with_articles(self, mock_send, mock_fetch):
         mock_logger = MagicMock()
         mock_fetch.return_value = [
@@ -23,8 +23,9 @@ class TestMain:
         )
         mock_send.assert_called_once()
 
-    @patch("src.main.logger")
-    @patch("src.main.run")
+    # @pytest.mark.skip
+    @patch("main.logger")
+    @patch("main.run")
     def test_lambda_handler(self, mock_run, mock_logger):
         event = {
             "search_term": "AI",
