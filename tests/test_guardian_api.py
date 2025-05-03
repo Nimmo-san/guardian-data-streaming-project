@@ -1,6 +1,6 @@
 from unittest.mock import patch, MagicMock
 from src.guardian_api import fetch_guardian_articles
-import pytest
+# import pytest
 
 
 class TestGuardianAPI:
@@ -31,28 +31,26 @@ class TestGuardianAPI:
         mock_requests_get.return_value.json.return_value = mock_response
 
         articles = fetch_guardian_articles(
-            guardian_api_key=dummy_api_key,
-            search_term="test",
-            logger=logger
+            guardian_api_key=dummy_api_key, search_term="test", logger=logger
         )
 
-        # Asserting returned article 
+        # Asserting returned article
         # matches with mock one
         assert len(articles) == 1
         article = articles[0]
         assert article["webTitle"] == "Sample Title"
         assert article["content_preview"].startswith("This is a sample")
 
-        # Checking logger 
+        # Checking logger
         logger.info.assert_any_call("Calling api...")
         logger.info.assert_any_call("Returning formatted data...")
-
 
     # @pytest.mark.skip
     @patch("src.guardian_api.boto3.client")
     def test_get_api_key_success(self, mock_boto_client):
         from src.guardian_api import get_api_key
-        # Mocking the logger 
+
+        # Mocking the logger
         logger = MagicMock()
 
         mock_secrets_client = MagicMock()
@@ -62,6 +60,6 @@ class TestGuardianAPI:
             "SecretString": "mock-secret-value"
         }
 
-        # Retrieving secret key and making sure it matches 
+        # Retrieving secret key and making sure it matches
         secret = get_api_key(secret_name="guardian_api_key", logger=logger)
         assert secret == "mock-secret-value"
