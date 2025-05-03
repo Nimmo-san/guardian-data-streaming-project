@@ -1,11 +1,11 @@
 from unittest.mock import patch, MagicMock
-from src.guardian_api import fetch_guardian_articles
+from guardian_api import fetch_guardian_articles, get_api_key
 # import pytest
 
 
 class TestGuardianAPI:
 
-    @patch("src.guardian_api.requests.get")
+    @patch("guardian_api.requests.get")
     def test_fetch_guardian_articles_success(self, mock_requests_get):
         # Sample api key
         dummy_api_key = "test-api-key"
@@ -46,9 +46,8 @@ class TestGuardianAPI:
         logger.info.assert_any_call("Returning formatted data...")
 
     # @pytest.mark.skip
-    @patch("src.guardian_api.boto3.client")
+    @patch("guardian_api.boto3.client")
     def test_get_api_key_success(self, mock_boto_client):
-        from src.guardian_api import get_api_key
 
         # Mocking the logger
         logger = MagicMock()
