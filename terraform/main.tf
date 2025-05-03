@@ -7,22 +7,13 @@ terraform {
   }
 
 # GDSP - guardian data streaming project
-  backend "s3" {
-    bucket = "gdsp-backend-tfstate"
-    key = "tfstate/terraform.tfstate"
-    region = "eu-west-2"
-  }
+  # backend "s3" {
+  #   bucket = "gdsp-backend-tfstate"
+  #   key = "tfstate/terraform.tfstate"
+  #   region = "eu-west-2"
+  # }
 }
 
-provider "aws" {
-    region = "eu-west-2"
-    default_tags {
-      tags = {
-        project = "gdsp"
-        environment = "dev"
-      }
-    }
-}
 
 data "aws_caller_identity" "current" {}
 data "aws_region" "current" {}
