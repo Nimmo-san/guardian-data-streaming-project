@@ -1,5 +1,5 @@
-from src.guardian_api import fetch_guardian_articles
-from src.message_broker import send_message_to_sqs
+from guardian_api import fetch_guardian_articles
+from message_broker import send_message_to_sqs
 import logging
 # import argparse
 # import json
