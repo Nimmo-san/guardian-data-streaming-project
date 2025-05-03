@@ -1,9 +1,9 @@
 from unittest.mock import patch, MagicMock
-from src.message_broker import send_message_to_sqs
+from message_broker import send_message_to_sqs
 
 
 class TestMessageBroker:
-    @patch("src.message_broker.boto3.client")
+    @patch("message_broker.boto3.client")
     def test_send_message_to_sqs(self, mock_boto_client):
         # Mock the logger
         logger = MagicMock()
