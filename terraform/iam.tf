@@ -53,3 +53,12 @@ resource "aws_iam_role_policy_attachment" "lambda_policy_attachment" {
   role       = aws_iam_role.lambda_exec_role.name
   policy_arn = aws_iam_policy.lambda_policy.arn
 }
+
+# Lambda log group removal with tf destroy
+resource "aws_cloudwatch_log_group" "lambda_logs" {
+  name = "/aws/lambda/${aws_lambda_function.guardian_stream.function_name}"
+  retention_in_days = 3
+  lifecycle {
+    prevent_destroy = false
+  }
+}
