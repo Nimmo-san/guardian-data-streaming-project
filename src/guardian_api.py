@@ -8,9 +8,11 @@ GUARDIAN_API_URL = "https://content.guardianapis.com/search"
 
 def get_api_key(secret_name="guardian_api_key", logger=None):
     """ """
+    logger.info(f"Calling secrets manager for API Key -> {secret_name}...")
     client = boto3.client("secretsmanager", region_name="eu-west-2")
     try:
         response = client.get_secret_value(SecretId=secret_name)
+        logger.info("Found API Key")
         return response.get("SecretString")
     except Exception as e:
         logger.error(f"Failed to retrieve secret: {e}")
@@ -39,7 +41,7 @@ def fetch_guardian_articles(
     if date_from:
         params["from-date"] = date_from
 
-    logger.info("Calling api...")
+    logger.info(f"Calling api with params {params}")
     response = requests.get(GUARDIAN_API_URL, params=params)
 
     if response.status_code != 200:
@@ -56,7 +58,6 @@ def fetch_guardian_articles(
         preview = article.get("fields", {}).get("bodyText", "")
         content_preview = preview[:1000] if preview else ""
 
-        logger.info("Formatting data...")
         simplified_articles.append(
             {
                 "webPublicationDate": article.get("webPublicationDate"),
