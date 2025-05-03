@@ -6,3 +6,5 @@ venv
 **/.terraform
 **/.terraform*
 .DS_Store
+layer/
+packages/
