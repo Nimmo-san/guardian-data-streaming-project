@@ -63,11 +63,11 @@ run-flake8:
 
 # Run the tests
 run-test:
-	$(call execute_in_env, PYTHONPATH=$(PYTHONPATH) pytest -v)
+	$(call execute_in_env, PYTHONPATH=$(PYTHONPATH)/src pytest -v)
 
 # Run the coverage check
 check-coverage:
-	$(call execute_in_env, PYTHONPATH=$(PYTHONPATH) pytest --cov=src tests/)
+	$(call execute_in_env, PYTHONPATH=$(PYTHONPATH)/src pytest --cov=src tests/)
 
 # Run all checks (code formatting, unit tests, and coverage)
 run-checks: run-bandit run-black run-flake8 run-test check-coverage
