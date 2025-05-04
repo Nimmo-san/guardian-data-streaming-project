@@ -10,15 +10,18 @@ def get_api_key(secret_name="guardian_api_key", logger=None):
     """
     Retrieves the Guardian API key from AWS Secrets Manager.
 
-    Uses the provided secret name to fetch the API key stored in Secrets Manager.
+    Uses secret name to fetch the API key stored in Secrets Manager.
     Returns the secret string if successful, or None if retrieval fails.
 
     Args:
-        secret_name (str, optional): The name of the secret in AWS Secrets Manager. Defaults to "guardian_api_key".
-        logger (logging.Logger, optional): Logger instance for logging info and error messages. Defaults to None.
+        secret_name (str, optional):
+            The name of secret in AWS Secrets Manager.
+        logger (logging.Logger, optional):
+            Logger instance for logging info and error messages.
 
     Returns:
-        str or None: The secret string (API key) if found; None otherwise.
+        str or None:
+            The secret string (API key) if found; None otherwise.
     """
     logger.info(f"Calling secrets manager for API Key -> {secret_name}...")
     client = boto3.client("secretsmanager", region_name="eu-west-2")
@@ -39,25 +42,33 @@ def fetch_guardian_articles(
     logger=None,
 ) -> List[Dict]:
     """
-    Fetches a list of articles from The Guardian Content API based on a search term.
+    Fetches a list of articles from The Guardian API based on a search term.
 
-    Makes an HTTP GET request to the Guardian API using the provided API key and
-    optional date filter, returning up to 'page_size' results. Each article returned
-    includes metadata and a content preview (first 1000 characters of the article body).
+    Makes an HTTP GET request to the Guardian API using the API key and
+    optional date filter, returning up to 'page_size' results.
 
     Args:
-        guardian_api_key (str): The API key for accessing the Guardian Content API.
-        search_term (str): The term to search for in Guardian articles.
-        date_from (Optional[str], optional): Date string (YYYY-MM-DD) to filter results from. Defaults to None.
-        page_size (int, optional): The maximum number of articles to return. Defaults to 10.
-        logger (logging.Logger, optional): Logger instance for logging debug and error messages. Defaults to None.
+        guardian_api_key (str):
+            The API key for accessing the Guardian Content API.
+        search_term (str):
+            The term to search for in Guardian articles.
+        date_from (Optional[str], optional):
+            Date string (YYYY-MM-DD) to filter results from. Defaults to None.
+        page_size (int, optional):
+            The maximum number of articles to return. Defaults to 10.
+        logger (logging.Logger, optional):
+            Logger instance for logging debug and error messages.
 
     Returns:
         List[Dict]: A list of dictionaries containing the following fields:
-            - webPublicationDate (str): Publication timestamp of the article.
-            - webTitle (str): Title of the article.
-            - webUrl (str): URL link to the article.
-            - content_preview (str): Truncated preview of the article body (max 1000 chars).
+            - webPublicationDate (str):
+                Publication timestamp of the article.
+            - webTitle (str):
+                Title of the article.
+            - webUrl (str):
+                URL link to the article.
+            - content_preview (str):
+                Truncated preview of the article body (max 1000 chars).
     """
     if not guardian_api_key:
         logger.error(f"Guardian api key empty: {guardian_api_key}")

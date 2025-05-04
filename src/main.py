@@ -20,10 +20,14 @@ def run(search_term: str, date_from: str, queue_url: str, logger: None):
     AWS SQS message broker. Logs each step for observability.
 
     Args:
-        search_term (str): The keyword or phrase to search for in Guardian articles.
-        date_from (str): The starting date (YYYY-MM-DD) to filter articles from.
-        queue_url (str): The URL of the AWS SQS queue to publish messages to.
-        logger (logging.Logger): Logger instance for emitting informational and error messages.
+        search_term (str):
+            The keyword or phrase to search for in Guardian articles.
+        date_from (str):
+            The starting date (YYYY-MM-DD) to filter articles from.
+        queue_url (str):
+            The URL of the AWS SQS queue to publish messages to.
+        logger (logging.Logger):
+            Logger instance for emitting informational and error messages.
 
     Returns:
         None
@@ -52,20 +56,24 @@ def lambda_handler(event, context):
     """
     AWS Lambda entry point for invoking the Guardian data streaming pipeline.
 
-    This function is triggered by an AWS event (e.g., EventBridge, manual test),
-    extracts parameters from the event payload, and initiates the article ingestion
-    and publishing process via the 'run' function.
+    This function is triggered by an AWS event,
+    extracts parameters from the event payload,
+    initiates the article ingestion,
+    publishing process via the 'run' function.
 
     Expected event payload format:
         {
             "search_term": "machine learning",
             "date_from": "2023-01-01",
-            "queue_url": "https://sqs.eu-west-2.amazonaws.com/123456789012/guardian_content"
+            "queue_url":
+                "https://sqs.eu-west-2.amazonaws.com/123456789012/guardian_content"
         }
 
     Args:
-        event (dict): The event payload passed by the Lambda trigger.
-        context (object): AWS Lambda context object containing metadata.
+        event (dict):
+            The event payload passed by the Lambda trigger.
+        context (object):
+            AWS Lambda context object containing metadata.
 
     Returns:
         None
