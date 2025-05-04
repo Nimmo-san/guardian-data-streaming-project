@@ -8,9 +8,9 @@ TERRAFORM_DIR="./terraform"
 
 
 
-echo "============================================="
+echo -e "\n============================================="
 echo " Starting Infrastructure Deployment Process "
-echo "============================================="
+echo -e "=============================================\n"
 
 
 if [ ! -f "./deploy.sh" ]; then
@@ -23,12 +23,12 @@ if ! [ -x "$(command -v terraform )" ]; then
     echo "Terraform not installed. Install it first." >&2
     exit 1
 fi
-echo -e "👉 Terraform available!\n"
+echo -e " ==> Terraform available!\n"
 
 # Building Lambda layer
-echo -r "Installing Lambda layer dependencies into ./layer/python...\n"
-mkdir -p layer/python
-pip install --target layer/python requests
+# echo -r "Installing Lambda layer dependencies into ./layer/python...\n"
+# mkdir -p layer/python
+# pip install --target layer/python requests
 
 # TF Initialising
 echo -e "Initialising Terraform!\n"
@@ -39,12 +39,12 @@ echo -e "Intialised Terraform! ✅ \n"
 
 
 # Planning TF Config for TESTING
-echo -e "Planning Terraform Configuration..."
+echo "Planning Terraform Configuration..."
 terraform plan 
 
 # Applying TF Config
 terraform apply -auto-approve
 
 
-echo -e "Infrastructure Deployment Complete! ✅ "
+echo -e "Infrastructure Deployment Complete! ✅ \n"
 
