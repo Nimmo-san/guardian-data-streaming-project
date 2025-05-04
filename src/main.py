@@ -1,6 +1,7 @@
 from guardian_api import fetch_guardian_articles, get_api_key
 from message_broker import send_message_to_sqs
 import logging
+
 # import argparse
 # import json
 # import os
@@ -15,9 +16,14 @@ def run(search_term: str, date_from: str, queue_url: str, logger: None):
 
     logger.info("Fetching Guardian API Key...")
     guardian_api_key = get_api_key(logger=logger)
-    
+
     logger.info(f"Fetching articles for {search_term}")
-    articles = fetch_guardian_articles(guardian_api_key=guardian_api_key, search_term=search_term, date_from=date_from, logger=logger)
+    articles = fetch_guardian_articles(
+        guardian_api_key=guardian_api_key,
+        search_term=search_term,
+        date_from=date_from,
+        logger=logger,
+    )
 
     if not articles:
         logger.info("No articles found.")
@@ -42,7 +48,12 @@ def lambda_handler(event, context):
     date_from = event.get("date_from")
     queue_url = event.get("queue_url")
 
-    run(search_term=search_term, date_from=date_from, queue_url=queue_url, logger=logger)
+    run(
+        search_term=search_term,
+        date_from=date_from,
+        queue_url=queue_url,
+        logger=logger,
+    )
 
 
 # For testing
