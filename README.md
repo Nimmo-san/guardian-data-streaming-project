@@ -1,5 +1,3 @@
-# Guardian data streaming project
-
 # Guardian Data Streaming Project
 
 A Python-based serverless application that fetches relevant news articles from The Guardian API and publishes them to an AWS SQS message broker for further analysis or processing. Designed for integration in modern data platforms with AWS Lambda, SQS, and Secrets Manager.
