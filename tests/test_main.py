@@ -1,6 +1,8 @@
 from unittest.mock import patch, MagicMock
 from main import run, lambda_handler
+
 # import pytest
+
 
 class TestMain:
     @patch("main.get_api_key")
@@ -21,7 +23,10 @@ class TestMain:
         run("test topic", "2023-01-01", "https://sqs-url", mock_logger)
 
         mock_fetch.assert_called_once_with(
-            guardian_api_key="test_api_key", search_term="test topic", date_from="2023-01-01", logger=mock_logger
+            guardian_api_key="test_api_key",
+            search_term="test topic",
+            date_from="2023-01-01",
+            logger=mock_logger,
         )
         mock_send.assert_called_once()
 
@@ -38,5 +43,8 @@ class TestMain:
         lambda_handler(event, None)
         # from unittest.mock import ANY
         mock_run.assert_called_once_with(
-            search_term="AI", date_from="2023-01-01", queue_url="https://sqs-url", logger=mock_logger
+            search_term="AI",
+            date_from="2023-01-01",
+            queue_url="https://sqs-url",
+            logger=mock_logger,
         )
