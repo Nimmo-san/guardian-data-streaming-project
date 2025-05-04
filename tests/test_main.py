@@ -3,10 +3,12 @@ from main import run, lambda_handler
 # import pytest
 
 class TestMain:
+    @patch("main.get_api_key")
     @patch("main.fetch_guardian_articles")
     @patch("main.send_message_to_sqs")
-    def test_run_with_articles(self, mock_send, mock_fetch):
+    def test_run_with_articles(self, mock_send, mock_fetch, mock_get_key):
         mock_logger = MagicMock()
+        mock_get_key.return_value = "test_api_key"
         mock_fetch.return_value = [
             {
                 "webPublicationDate": "2023-01-01",
@@ -19,7 +21,7 @@ class TestMain:
         run("test topic", "2023-01-01", "https://sqs-url", mock_logger)
 
         mock_fetch.assert_called_once_with(
-            "test topic", "2023-01-01", logger=mock_logger
+            guardian_api_key="test_api_key", search_term="test topic", date_from="2023-01-01", logger=mock_logger
         )
         mock_send.assert_called_once()
 
@@ -36,5 +38,5 @@ class TestMain:
         lambda_handler(event, None)
         # from unittest.mock import ANY
         mock_run.assert_called_once_with(
-            "AI", "2023-01-01", "https://sqs-url", mock_logger
+            search_term="AI", date_from="2023-01-01", queue_url="https://sqs-url", logger=mock_logger
         )
