@@ -78,6 +78,7 @@ class TestGuardianAPI:
     @patch("guardian_api.boto3.client")
     def test_get_api_key_success(self, mock_boto_client):
 
+        mock_secret_value = "mock-secret-value"
         # Mocking the logger
         logger = MagicMock()
 
@@ -85,14 +86,27 @@ class TestGuardianAPI:
         mock_boto_client.return_value = mock_secrets_client
         mock_secrets_client.get_secret_value.return_value = {
             # Sample secret api key
-            "SecretString": "mock-secret-value"
+            "SecretString": mock_secret_value
         }
 
         # Retrieving secret key and making sure it matches
         secret = get_api_key(secret_name="guardian_api_key", logger=logger)
-        assert secret == "mock-secret-value"
+        assert secret == mock_secret_value
+        logger.info.assert_any_call("Calling secrets manager for API Key -> guardian_api_key...")
+        logger.info.assert_any_call("Found API Key")
     
-    def test_get_api_key_invalid_secret_name(self):
-        pass
+    @patch("guardian_api.boto3.client")
+    def test_get_api_key_invalid_secret_name(self, mock_boto_client):
+        mock_logger = MagicMock()
+
+        mock_client = MagicMock()
+        mock_boto_client.return_value = mock_client
+        mock_client.get_secret_value.side_effect = Exception("Secret not found")
+
+        secret = get_api_key(secret_name="fake_name", logger=mock_logger)
+
+        assert secret is None
+        mock_logger.error.assert_called_with("Failed to retrieve secret: Secret not found")
+
 
 
