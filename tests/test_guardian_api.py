@@ -48,22 +48,28 @@ class TestGuardianAPI:
 
     
     def test_fetch_guardian_articles_api_key_empty(self):
+        # None api key
         invalid_api_key = None
         mock_logger = MagicMock()
 
         articles = fetch_guardian_articles(guardian_api_key=invalid_api_key, search_term="", date_from="", logger=mock_logger)
+        # Validating return value of empty list
         assert articles == []
 
         mock_logger.error.assert_any_call(f"Guardian api key empty: {invalid_api_key}")
 
+        # Empty api key
         invalid_api_key = ""
         articles = fetch_guardian_articles(guardian_api_key=invalid_api_key, search_term="", date_from="", logger=mock_logger)
+        # Validating return value of empty list
         assert articles == []
         mock_logger.error.assert_any_call(f"Guardian api key empty: {invalid_api_key}")
 
     @patch("guardian_api.requests.get")
     def test_fetch_guardian_articles_invalid_api_key(self, mock_requests_get):
+        # Invalid api key
         invalid_api_key = "invalid-api-key"
+        # Get raises an error of 403
         status_code = 403
         mock_logger = MagicMock()
 
@@ -99,6 +105,7 @@ class TestGuardianAPI:
     def test_get_api_key_invalid_secret_name(self, mock_boto_client):
         mock_logger = MagicMock()
 
+        # Mocking secrets client that raises an error 
         mock_client = MagicMock()
         mock_boto_client.return_value = mock_client
         mock_client.get_secret_value.side_effect = Exception("Secret not found")
