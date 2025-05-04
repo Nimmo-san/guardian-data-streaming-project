@@ -29,6 +29,7 @@ def fetch_guardian_articles(
     """ """
     if not guardian_api_key:
         logger.error(f"Guardian api key empty: {guardian_api_key}")
+        return []
 
     params = {
         "q": search_term,
