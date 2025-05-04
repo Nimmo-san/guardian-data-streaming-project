@@ -1,0 +1,48 @@
+name: CI/CD Guardian Streaming Data Project
+
+on:
+  push:
+    branches:
+      - main
+
+
+jobs:
+  test-list:
+    runs-on: ubuntu-latest
+
+    steps:
+        - name: Checkout
+          uses: actions/checkout@v4 
+
+        - name: Set up python
+          uses: actions/setup-python@v5
+          with:
+            python-version: '3.x'
+            
+        - name: Install Terraform
+          uses: hashicorp/setup-terraform@v2
+          with:
+            terraform_version: 1.9.4
+            
+        - name: Set PYTHONPATH
+          run: |
+            echo "PYTHONPATH=$PYTHONPATH:$(pwd)/src" >> $GITHUB_ENV
+            echo "PYTHONPATH=$PYTHONPATH:$(pwd)/test" >> $GITHUB_ENV
+          
+        - name: Install make
+          run: sudo apt-get install make
+        
+        - name: Setting up environment and installing requirements
+          run: make requirements
+          
+        - name: Run bandit checks
+          run: make run-bandit
+        
+        - name: Run flake8 checks
+          run: make run-flake8
+        
+        - name: Run tests
+          run: make run-test
+        
+        - name: Run coverage
+          run: make check-coverage
