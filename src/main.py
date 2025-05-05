@@ -2,10 +2,10 @@ from guardian_api import fetch_guardian_articles, get_api_key
 from message_broker import send_message_to_sqs
 import logging
 import argparse
+import os
 
 
 # import json
-# import os
 
 
 logger = logging.getLogger()
@@ -94,6 +94,10 @@ def lambda_handler(event, context):
 
 # For testing
 if __name__ == "__main__":
+    # Local cli logger 
+    logger = logging.getLogger("cli")
+    logging.basicConfig(level=logging.INFO)
+
     # Can be run locally for testing
     parser = argparse.ArgumentParser(
         description="Guardian Stream articles to SQS"
@@ -110,5 +114,11 @@ if __name__ == "__main__":
         "--queue_url", help="SQS Queue URL", default=None, required=True
     )
 
+
     args = parser.parse_args()
-    run(args.search_term, args.date_from, args.queue_url)
+    queue_url = args.queue_url or os.getenv("QUEUE_URL")
+    if not queue_url:
+        print("Error: Not queue_url provided. Use --queue_url or set QUEUE_URL environment variable.")
+        exit(1)
+    
+    run(args.search_term, args.date_from, queue_url, logger=logger)
