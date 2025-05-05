@@ -24,6 +24,7 @@ resource "aws_iam_policy" "lambda_policy" {
   name = "guardian_lambda_policy"
   policy = jsonencode({
     Version = "2012-10-17",
+    # Log group permissions
     Statement = [
       {
         Effect = "Allow",
@@ -35,11 +36,13 @@ resource "aws_iam_policy" "lambda_policy" {
         Resource = "*"
       },
       {
+        # SQS permission
         Effect = "Allow",
         Action = "sqs:SendMessage",
         Resource = aws_sqs_queue.guardian_content.arn
       },
       {
+        # SSM permission
         Effect = "Allow",
         Action = "secretsmanager:GetSecretValue",
         Resource = "*"
@@ -57,7 +60,7 @@ resource "aws_iam_role_policy_attachment" "lambda_policy_attachment" {
 # Lambda log group removal with tf destroy
 resource "aws_cloudwatch_log_group" "lambda_logs" {
   name = "/aws/lambda/${aws_lambda_function.guardian_stream.function_name}"
-  retention_in_days = 3
+  retention_in_days = 3 # Holds log data for 3 days
   lifecycle {
     prevent_destroy = false
   }
