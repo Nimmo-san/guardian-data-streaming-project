@@ -2,8 +2,10 @@ name: CI/CD Guardian Streaming Data Project
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
+    paths-ignore:
+      - 'README.md'
+      - 'CONTRIBUTING.md'
 
 
 jobs:
