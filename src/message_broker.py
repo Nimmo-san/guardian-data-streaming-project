@@ -34,7 +34,7 @@ def send_message_to_sqs(messages: List[Dict], queue_url: str, logger=None):
                 f"Message sent to SQS with ID: {response.get('MessageId')}"
             )
         except ClientError:
-            raise 
+            raise
 
 
 # For testing

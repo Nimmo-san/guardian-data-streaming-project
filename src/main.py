@@ -98,7 +98,7 @@ def lambda_handler(event, context):
 
 # For testing
 if __name__ == "__main__":
-    # Local cli logger 
+    # Local cli logger
     logger = logging.getLogger("cli")
     logging.basicConfig(level=logging.INFO)
 
@@ -118,11 +118,13 @@ if __name__ == "__main__":
         "--queue_url", help="SQS Queue URL", default=None, required=True
     )
 
-
     args = parser.parse_args()
     queue_url = args.queue_url or os.getenv("QUEUE_URL")
     if not queue_url:
-        print("Error: Not queue_url provided. Use --queue_url or set QUEUE_URL environment variable.")
+        print(
+            "Error: Not queue_url provided. "
+            "Use --queue_url or set QUEUE_URL environment variable."
+        )
         exit(1)
-    
+
     run(args.search_term, args.date_from, queue_url, logger=logger)
