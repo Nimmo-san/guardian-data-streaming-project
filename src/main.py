@@ -49,7 +49,11 @@ def run(search_term: str, date_from: str, queue_url: str, logger: None):
         return
 
     logger.info(f"Sending {len(articles)} articles to broker...")
-    send_message_to_sqs(articles, queue_url, logger=logger)
+    try:
+        send_message_to_sqs(articles, queue_url, logger=logger)
+    except Exception as error:
+        logger.error(f"Pipeline failed while sending to SQS: {error}")
+        return
     logger.info("Pipeline complete.")
 
 
