@@ -1,6 +1,7 @@
 from guardian_api import fetch_guardian_articles, get_api_key
 from message_broker import send_message_to_sqs
 import logging
+import argparse
 
 # import argparse
 # import json
@@ -93,4 +94,17 @@ def lambda_handler(event, context):
 
 # For testing
 if __name__ == "__main__":
-    lambda_handler()
+    # Can be run locally for testing
+    parser = argparse.ArgumentParser(
+        description="Guardian Stream articles to SQS"
+    )
+    parser.add_argument(
+        "--search_term", help="Search term for Guardian articles"
+    )
+    parser.add_argument(
+        "--date_from", help="Start date (YYYY-MM-DD)", default=None
+    )
+    parser.add_argument("--queue_url", help="SQS Queue URL", default=None)
+
+    args = parser.parse_args()
+    run(args.search_term, args.date_from, args.queue_url)
