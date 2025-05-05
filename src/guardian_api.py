@@ -86,7 +86,7 @@ def fetch_guardian_articles(
         params["from-date"] = date_from
 
     logger.info("Calling api...")
-    logger.info(f"params {params}")
+
     response = requests.get(GUARDIAN_API_URL, params=params)
 
     if response.status_code != 200:
