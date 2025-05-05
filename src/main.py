@@ -3,7 +3,7 @@ from message_broker import send_message_to_sqs
 import logging
 import argparse
 
-# import argparse
+
 # import json
 # import os
 
