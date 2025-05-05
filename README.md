@@ -54,7 +54,6 @@ To setup the project, follow these steps
 git clone https://github.com/Nimmo-san/guardian-data-streaming-project.git
 cd Guardian-Data-Streaming-Project
 ```
-2. 
 
 ## Using the Makefile
 
@@ -86,6 +85,9 @@ cd Guardian-Data-Streaming-Project
 | `main.py`           | Entry point for the Lambda function. Parses input (from an AWS event), retrieves articles, and publishes them to the SQS message broker. |
 | `guardian_api.py`   | Contains logic for calling The Guardian Content API using a search term and optional date filter. Returns a list of up to 10 structured articles with a content preview. |
 | `message_broker.py` | Publishes articles as JSON messages to an AWS SQS queue. Handles message formatting and delivery. |
+
+### 'terraform/'
+  - File modules for AWS Provisioning
 
 ### SQS
 - **SQS Queue (`guardian_content`)**:
