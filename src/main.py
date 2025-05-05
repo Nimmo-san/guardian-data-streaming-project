@@ -99,12 +99,16 @@ if __name__ == "__main__":
         description="Guardian Stream articles to SQS"
     )
     parser.add_argument(
-        "--search_term", help="Search term for Guardian articles"
+        "--search_term",
+        help="Search term for Guardian articles",
+        required=True,
     )
     parser.add_argument(
         "--date_from", help="Start date (YYYY-MM-DD)", default=None
     )
-    parser.add_argument("--queue_url", help="SQS Queue URL", default=None)
+    parser.add_argument(
+        "--queue_url", help="SQS Queue URL", default=None, required=True
+    )
 
     args = parser.parse_args()
     run(args.search_term, args.date_from, args.queue_url)
