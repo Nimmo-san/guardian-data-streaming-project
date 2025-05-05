@@ -98,6 +98,25 @@ cd Guardian-Data-Streaming-Project
 2. Integration Testing
     - Testing the entire pipeline by triggering events and verifying outputs in the SQS Queue
 
+### Local Testing via CLI
+
+You can run the application locally using Python's CLI to simulate a Lambda invocation.
+
+#### Example Usage
+```sh
+python src/main.py \
+  --search_term "machine learning" \
+  --date_from "2024-01-01" \
+  --queue_url "https://sqs.eu-west-2.amazonaws.com/123456789012/guardian_content"
+```
+### CLI Arguments
+
+| Argument        | Description                                       |
+| --------------- | ------------------------------------------------- |
+| `--search_term` | **(required)** Keyword or phrase to search for.   |
+| `--date_from`   | **(optional)** Start date in `YYYY-MM-DD` format. |
+| `--queue_url`   | **(required)** Full SQS queue URL.                |
+
 
 ## Deployment
 
