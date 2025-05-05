@@ -134,7 +134,8 @@ cd Guardian-Data-Streaming-Project
 
 ### Infrastructure
 
-- **Dead Letter Queue (DLQ)**: Add an SQS DLQ for better error handling and message durability.
+- **EventBridge Scheduler**: Automate Lambda execution to run hourly/daily.
+- **Dead Letter Queue (DLQ)**: Add an SQS DLQ for better error handling, message durability, and logging failed messages.
 - **Monitoring & Alerts**: Integrate with CloudWatch Alarms or AWS SNS to notify on Lambda failures or high error rates.
 
 ### Functionality 
