@@ -162,6 +162,7 @@ python src/main.py \
 - **Content Sentiment Analysis**: Add a Lambda consumer or post-processor that analyses article sentiment or topic classification.
 - **Support for More Fields**: Extend message structure to include section names, author(s), tags, etc.
 - **Terraform Variable Flexibility**: Make message retention period configurable via Terraform variables for flexibility across environments.
+- **Partial vs Full Failure**: Add a way to show how many messages succeeded/failed that were sent to SQS Queue.
 
 
 ### Packaging
